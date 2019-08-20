@@ -71,10 +71,13 @@ public class AddressService {
         String districtName = getDistrictName(address.getDistrictId());
         String villageName = getVillageName(address.getVillageId());
         String fullAddress = address.getAddressDescrip() + ", " + provinceName + ", " + districtName + ", " + villageName;
+        address.setNumberAddress(address.getAddressDescrip());
         address.setAddressDescrip(fullAddress);
         address.setProvinceName(provinceName);
         address.setDistrictName(districtName);
         address.setVillageName(villageName);
+        System.out.println(address.toString());
+
         return address;
     }
 

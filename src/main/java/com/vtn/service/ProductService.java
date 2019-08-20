@@ -70,7 +70,7 @@ public class ProductService {
                 newPros.add(product);
             }
             String promotionImage = baseUrl + promRes.getPromotionImage(productCategory.getPromotionId()); // Get Promotion image for each category
-            int amountProduct = proRes.countAllByCategoryId(productCategory.getCategoryId());// Get Amount product by ProductCategoryId
+            int amountProduct = proRes.countAllByCategoryIdAndStatusTrue(productCategory.getCategoryId());// Get Amount product by ProductCategoryId
             homepages.add(new Homepage(productCategory.getCategoryId(), productCategory.getCategoryName(), promotionImage, amountProduct, newPros));
         }
         return homepages;
@@ -117,8 +117,8 @@ public class ProductService {
         return listOutOfStock;
     }
 
-    public List<String> getListProductName(String key) {
-        return proRes.listProductNameByKeyWord(key);
+    public List<String> getListProductName(String key, int page, int size) {
+        return proRes.listProductNameByKeyWord(key, PageRequest.of(page, size)).getContent();
     }
 
     public List<Product> search(String key, int page, int size) {

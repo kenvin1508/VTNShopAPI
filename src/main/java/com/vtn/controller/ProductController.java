@@ -50,16 +50,17 @@ public class ProductController {
         return proSer.listIdOutOfStock(outOfStocks);
     }
 
-    @GetMapping("/productname")
-    public List<String> getListProductName(@RequestParam String key) {
-        System.out.println(key);
-        return proSer.getListProductName(key);
-    }
 
     @GetMapping("/search")
     public List<Product> search(@RequestParam String key, @RequestParam int page, @RequestParam int size) {
         System.out.println(key);
         return proSer.search(key, page, size);
+    }
+
+    @GetMapping("/searchname")
+    public List<String> searchName(@RequestParam String key, @RequestParam int page, @RequestParam int size) {
+            System.out.println(key);
+        return proSer.getListProductName(key, page, size);
     }
 
     @GetMapping("/bought")

@@ -88,11 +88,15 @@ public class CustomerController {
 
     }
 
-
     @PostMapping("/loginfb")
     public ResponseEntity<Customer> loginFb(@RequestBody Customer customer
             , @RequestParam String idAccount
             , @RequestParam String urlImage) {
-        return cusSer.loginFB(customer, idAccount, urlImage);
+        Customer customer1 = cusSer.loginFB(customer, idAccount, urlImage);
+        if (customer1!= null) {
+            return new ResponseEntity<>(customer1, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 }

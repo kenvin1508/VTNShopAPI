@@ -18,12 +18,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     Product findProductByProductId(int productId);
 
-    int countAllByCategoryId(int productCategoryId);
+    int countAllByCategoryIdAndStatusTrue(int productCategoryId);
 
     Page<Product> findByProductNameLikeAndStatusTrue(String key, Pageable pageable);
 
     @Query(value = "select ProductName from Product where dbo.fChuyenCoDauThanhKhongDau(ProductName) LIKE CONCAT(N'%',dbo.fChuyenCoDauThanhKhongDau(:key),'%')", nativeQuery = true)
-    List<String> listProductNameByKeyWord(@Param("key") String key);
+    Page<String> listProductNameByKeyWord(@Param("key") String key, Pageable page);
 
     @Query(value = "select * from Product where dbo.fChuyenCoDauThanhKhongDau(ProductName) LIKE CONCAT(N'%',dbo.fChuyenCoDauThanhKhongDau(:key),'%')", nativeQuery = true)
     Page<Product> findByProductNameContainsAndStatusTrue(String key, Pageable page);

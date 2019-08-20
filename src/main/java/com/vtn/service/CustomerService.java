@@ -81,7 +81,10 @@ public class CustomerService {
         }
     }
 
-    public ResponseEntity<Customer> loginFB(Customer customer, String idAccount, String urlImage) {
+    public Customer loginFB(Customer customer, String idAccount, String urlImage) {
+        if (cusRes.existsByPhone(customer.getPhone())) {
+            return null;
+        }
         String absolutePath = new File("") // Get AbsolutePath of Windows
                 .getAbsolutePath()
                 .replace("\\", "/");
@@ -98,11 +101,12 @@ public class CustomerService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         customer.setImage("/images/customer/" + idAccount + ".png");
         customer.setGender("Nam");
         customer.setDateOfBirth(customer.getCreatedDate());
         Customer customer1 = cusRes.save(customer);
-        return new ResponseEntity<>(customer1, HttpStatus.OK);
+        return customer1;
         //  }
     }
 

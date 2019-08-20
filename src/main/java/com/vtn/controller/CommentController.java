@@ -30,9 +30,20 @@ public class CommentController {
         }
     }
 
+//    @GetMapping("/commented")
+//    public Comment checkCommentedOrNot(@RequestParam int customerId, @RequestParam int productId) {
+//        System.out.println(customerId + " " + productId);
+//        return comSer.checkCommentedOrNot(customerId, productId);
+//    }
+
     @GetMapping("/commented")
-    public Comment checkCommentedOrNot(@RequestParam int customerId, @RequestParam int productId) {
-        System.out.println(customerId + " " + productId);
-        return comSer.checkCommentedOrNot(customerId, productId);
+    public ResponseEntity<Comment> checkCommentedOrNot(@RequestParam int customerId, @RequestParam int productId) {
+        Comment comment = comSer.checkCommentedOrNot(customerId, productId);
+        if (comment != null) {
+            return new ResponseEntity<>(comment, HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 }
