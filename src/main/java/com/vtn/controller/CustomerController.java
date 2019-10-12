@@ -2,6 +2,8 @@ package com.vtn.controller;
 
 import java.util.Optional;
 
+import com.vtn.model.FCM;
+import com.vtn.service.FCMServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +25,16 @@ import com.vtn.service.CustomerService;
 public class CustomerController {
     @Autowired
     CustomerService cusSer;
+    @Autowired
+    FCMServices fcmSer;
 
     @GetMapping("/getone")
     public Optional<Customer> getOne(@RequestParam int id) {
         return cusSer.getCustomer(id);
     }
 
-    @PostMapping("/insert")
-    public String insertCustomer(@RequestBody Customer customer) {
+    @PostMapping("/checksignup")
+    public String checkSignUp(@RequestBody Customer customer) {
         System.out.println(customer.getPhone());
         if (cusSer.existsByPhone(customer.getPhone())) {
             return "phone";
@@ -38,6 +42,11 @@ public class CustomerController {
         if (cusSer.existsByEmail((customer.getEmail()))) {
             return "email";
         }
+        return "success";
+    }
+
+    @PostMapping("/insert")
+    public String insertCustomer(@RequestBody Customer customer) {
         try {
             cusSer.save(customer);
             return "success";
@@ -68,14 +77,28 @@ public class CustomerController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Customer> getAll(@RequestBody Customer customer) {
+    public ResponseEntity<Customer> getAll(@RequestBody Customer customer
+            , @RequestParam String deviceId, @RequestParam String token) {
         Customer customerN = cusSer.login(customer);
         if (customerN != null) {
+            FCM fcm = fcmSer.checkExistFCM(deviceId, token);
+            if (fcm == null) {
+                fcmSer.insertLogin(new FCM(customerN.getId(), deviceId, token));
+            } else {
+                fcm.setCustomerId(customerN.getId());
+                fcmSer.insertLogin(fcm);
+            }
             return new ResponseEntity<>(customerN, HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @GetMapping("/logout")
+    public void logout(@RequestParam int customerId
+            , @RequestParam String deviceId, @RequestParam String token) {
+        fcmSer.getFCMLogout(customerId, deviceId, token);
     }
 
     @GetMapping("/checkexistfb")
@@ -88,15 +111,21 @@ public class CustomerController {
 
     }
 
+    @GetMapping("/checkexistphone")
+    public String checkExistPhone(@RequestParam String phone) {
+        if (cusSer.existsByPhone(phone)) {
+            return "existed";
+        } else {
+            return "done";
+        }
+
+    }
+
     @PostMapping("/loginfb")
     public ResponseEntity<Customer> loginFb(@RequestBody Customer customer
             , @RequestParam String idAccount
             , @RequestParam String urlImage) {
         Customer customer1 = cusSer.loginFB(customer, idAccount, urlImage);
-        if (customer1!= null) {
-            return new ResponseEntity<>(customer1, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        return new ResponseEntity<>(customer1, HttpStatus.OK);
     }
 }

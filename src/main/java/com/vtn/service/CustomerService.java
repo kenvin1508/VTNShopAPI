@@ -26,6 +26,7 @@ public class CustomerService {
     }
 
     public void save(Customer customer) {
+        System.out.println(customer.toString());
         cusRes.save(customer);
     }
 
@@ -82,9 +83,6 @@ public class CustomerService {
     }
 
     public Customer loginFB(Customer customer, String idAccount, String urlImage) {
-        if (cusRes.existsByPhone(customer.getPhone())) {
-            return null;
-        }
         String absolutePath = new File("") // Get AbsolutePath of Windows
                 .getAbsolutePath()
                 .replace("\\", "/");

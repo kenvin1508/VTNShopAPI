@@ -33,6 +33,7 @@ public class Customer {
     @Column(name = "Status")
     private boolean status;
 
+
     public int getId() {
         return id;
     }
@@ -113,4 +114,19 @@ public class Customer {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", gender='" + gender + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", createdDate='" + createdDate + '\'' +
+                ", image='" + image + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
