@@ -52,14 +52,14 @@ public class ProductController {
 
 
     @GetMapping("/search")
-    public List<Product> search(@RequestParam String key, @RequestParam int page, @RequestParam int size) {
+    public List<Product> search(@RequestParam String key, @RequestParam int page, @RequestParam int size, @RequestParam int sort) {
         System.out.println(key);
-        return proSer.search(key, page, size);
+        return proSer.search(key, page, size,sort);
     }
 
     @GetMapping("/searchname")
     public List<String> searchName(@RequestParam String key, @RequestParam int page, @RequestParam int size) {
-            System.out.println(key);
+        System.out.println(key);
         return proSer.getListProductName(key, page, size);
     }
 

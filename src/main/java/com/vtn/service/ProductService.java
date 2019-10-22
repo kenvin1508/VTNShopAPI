@@ -121,8 +121,18 @@ public class ProductService {
         return proRes.listProductNameByKeyWord(key, PageRequest.of(page, size)).getContent();
     }
 
-    public List<Product> search(String key, int page, int size) {
-        List<Product> currentPros = proRes.findByProductNameContainsAndStatusTrue(key, PageRequest.of(page, size)).getContent();
+    public List<Product> search(String key, int page, int size, int sort) {
+        Sort sortt = null;
+        if (sort == 0) {
+            sortt = Sort.by("PriceSale").descending();
+        }
+        if (sort == 1) {
+            sortt = Sort.by("PriceSale").ascending();
+        }
+        if (sort == 2) {
+            sortt = Sort.by("PercentSale").descending();
+        }
+        List<Product> currentPros = proRes.findByProductNameContainsAndStatusTrue(key, PageRequest.of(page, size, sortt)).getContent();
         List<Product> newPros = new ArrayList<>();
         for (Product product : currentPros) {
             product.setProductImage(VtnShopUtil.getBaseUrl() + product.getProductImage());
