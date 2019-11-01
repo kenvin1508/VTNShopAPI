@@ -25,7 +25,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "select ProductName from Product where dbo.fChuyenCoDauThanhKhongDau(ProductName) LIKE CONCAT(N'%',dbo.fChuyenCoDauThanhKhongDau(:key),'%')", nativeQuery = true)
     Page<String> listProductNameByKeyWord(@Param("key") String key, Pageable page);
 
-    @Query(value = "select * from Product where dbo.fChuyenCoDauThanhKhongDau(ProductName) LIKE CONCAT(N'%',dbo.fChuyenCoDauThanhKhongDau(:key),'%')", nativeQuery = true)
+    @Query(value = "select * from Product where dbo.fChuyenCoDauThanhKhongDau(ProductName) LIKE CONCAT(N'%',dbo.fChuyenCoDauThanhKhongDau(:key),'%') AND Status=1", nativeQuery = true)
     Page<Product> findByProductNameContainsAndStatusTrue(String key, Pageable page);
 
     @Query(value = "select Amount from Product where ProductId=?1", nativeQuery = true)

@@ -16,4 +16,16 @@ public class HotKeyService {
     public List<String> getAll() {
         return hkRes.getAll();
     }
+
+    public void increaseTotal(String word) {
+        HotKeySearch hotKeySearch = hkRes.findByWord(word);
+        if (hotKeySearch != null) {
+            System.out.println("tren");
+            hotKeySearch.setTotal(hotKeySearch.getTotal() + 1);
+            hkRes.save(hotKeySearch);
+        } else {
+            System.out.println("duoi");
+            hkRes.save(new HotKeySearch(word, 1));
+        }
+    }
 }

@@ -14,6 +14,14 @@ public class HotKeySearch {
     @Column(name = "Total")
     private int total;
 
+    public HotKeySearch() {
+    }
+
+    public HotKeySearch(String word, int total) {
+        this.word = word;
+        this.total = total;
+    }
+
     public int getId() {
         return id;
     }
