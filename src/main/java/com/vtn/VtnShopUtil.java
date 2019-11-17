@@ -12,6 +12,7 @@ public class VtnShopUtil {
     public static String formatDate(String date) {
         SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
+		
         try {
             return myFormat.format(fromUser.parse(date));
         } catch (ParseException e) {

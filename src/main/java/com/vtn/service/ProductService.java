@@ -1,23 +1,23 @@
 package com.vtn.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vtn.VtnShopUtil;
-import com.vtn.model.*;
-import com.vtn.model.oder.Order;
+import com.vtn.model.Cart;
+import com.vtn.model.Homepage;
+import com.vtn.model.OutOfStock;
+import com.vtn.model.Promotion;
 import com.vtn.model.product.PagingProduct;
 import com.vtn.model.product.Product;
 import com.vtn.model.product.ProductCategory;
 import com.vtn.repository.OrderRepository;
+import com.vtn.repository.ProductRepository;
+import com.vtn.repository.PromotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.vtn.repository.ProductRepository;
-import com.vtn.repository.PromotionRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -154,6 +154,10 @@ public class ProductService {
         } else {
             return false;
         }
+    }
+
+    public Promotion getPromotionDiscount(Cart cart) {
+        return promRes.getPromotionDiscount(cart.getDisCountCode(), cart.getTime(), cart.getIdCategory());
     }
 
 }

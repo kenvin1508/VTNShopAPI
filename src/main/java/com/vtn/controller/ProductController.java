@@ -10,6 +10,8 @@ import com.vtn.model.product.PagingProduct;
 import com.vtn.model.product.Product;
 import com.vtn.model.product.ProductCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -54,7 +56,7 @@ public class ProductController {
     @GetMapping("/search")
     public List<Product> search(@RequestParam String key, @RequestParam int page, @RequestParam int size, @RequestParam int sort) {
         System.out.println(key);
-        return proSer.search(key, page, size,sort);
+        return proSer.search(key, page, size, sort);
     }
 
     @GetMapping("/searchname")
@@ -68,4 +70,19 @@ public class ProductController {
         return proSer.checkBoughtOrNot(customerId, productId);
     }
 
+//    @PostMapping("/discount")
+//    public Promotion getPromotionDiscount(@RequestBody Cart cart) {
+//        return proSer.getPromotionDiscount(cart);
+//    }
+
+    @PostMapping("/discount")
+    public ResponseEntity<Promotion> getPromotionDiscount(@RequestBody Cart cart) {
+        Promotion promotion = proSer.getPromotionDiscount(cart);
+        if (promotion != null) {
+            return new ResponseEntity<>(promotion, HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 }
