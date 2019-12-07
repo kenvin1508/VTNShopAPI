@@ -16,6 +16,7 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     Page<Product> findByCategoryIdAndStatusTrue(int id, Pageable page);
 
+
     Product findProductByProductId(int productId);
 
     int countAllByCategoryIdAndStatusTrue(int productCategoryId);

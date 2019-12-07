@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/homepage")
-    List<Homepage> getListHomepages(@RequestParam int page, @RequestParam int size) {
+    List<Homepage> getListHomepage(@RequestParam int page, @RequestParam int size) {
         return proSer.getListHomepages(page, size, VtnShopUtil.getBaseUrl());
     }
 

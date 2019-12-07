@@ -157,7 +157,8 @@ public class ProductService {
     }
 
     public Promotion getPromotionDiscount(Cart cart) {
-        return promRes.getPromotionDiscount(cart.getDisCountCode(), cart.getTime(), cart.getIdCategory());
+        System.out.println(cart.getTime() + " " + cart.getDisCountCode());
+        return promRes.getPromotionDiscount(cart.getDisCountCode(), cart.getTime());
     }
 
 }
