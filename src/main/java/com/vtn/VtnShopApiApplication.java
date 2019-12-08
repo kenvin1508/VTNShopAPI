@@ -21,4 +21,5 @@ public class VtnShopApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(VtnShopApiApplication.class, args);
     }
+
 }
