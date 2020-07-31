@@ -19,9 +19,10 @@ public class OrderTemp {
     private String customerName;
     private String customerAddress;
     private String statusDescrip;
+    private String payPalTransId;
     private ArrayList<ProductTemp> products;
 
-    public OrderTemp(int orderId, String createdDate, String statusDescrip, String customerAddress, String phone, String customerName, String total, String paymentFormName) {
+    public OrderTemp(int orderId, String createdDate, String statusDescrip, String customerAddress, String phone, String customerName, String total, String paymentFormName, String payPalTransId) {
         this.orderId = orderId;
         this.createdDate = createdDate;
         this.statusDescrip = statusDescrip;
@@ -30,6 +31,15 @@ public class OrderTemp {
         this.customerName = customerName;
         this.total = total;
         this.paymentFormName = paymentFormName;
+        this.payPalTransId = payPalTransId;
+    }
+
+    public String getPayPalTransId() {
+        return payPalTransId;
+    }
+
+    public void setPayPalTransId(String payPalTransId) {
+        this.payPalTransId = payPalTransId;
     }
 
     public String getPaymentFormName() {

@@ -45,6 +45,7 @@ public class OrderService {
         orderSaved.setNote(orderTemp.getNote());
         orderSaved.setStatusId(orderTemp.getStatusId());
         orderSaved.setTotal(orderTemp.getTotal());
+        orderSaved.setPayPalTransId(orderTemp.getPayPalTransId());
         ordProRep.save(orderSaved);
         return orderSaved;
     }
@@ -60,6 +61,7 @@ public class OrderService {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrderId(orderSaved.getOrderId());
                     orderDetail.setProductId(product.getProductId());
+                    orderDetail.setCategoryId(product.getCategoryId());
                     orderDetail.setPriceSale(product.getPriceSale());
                     orderDetail.setAmount(product.getAmount());
                     orderDetail.setTotal(product.getTotal());
@@ -100,18 +102,20 @@ public class OrderService {
 
     public List<OrderTemp> getListOrders(int customerId, int page, int size) {
         List<Order> orders = ordProRep.findByCustomerId(customerId, PageRequest.of(page, size)).getContent();
+        System.out.println(orders.toString());
         List<OrderTemp> orderTemps = new ArrayList<>();
         for (Order order : orders) {
             String orderStatus = ordStaRep.getStatusDescrip(order.getStatusId());
             String createdDate = VtnShopUtil.formatDate(order.getCreatedDate());
             String total = order.getTotal();
+            String payPalTransId = order.getPayPalTransId();
             int orderId = order.getOrderId();
             Address address = addRep.findAddressByAddressId(order.getAddressId());
             String phone = address.getPhone();
             String customerName = address.getName();
             String addressDescip = address.getAddressDescrip();
             String paymentFormName = payForRep.getName(order.getPaymentFormId());
-            OrderTemp orderTemp = new OrderTemp(orderId, createdDate, orderStatus, addressDescip, phone, customerName, total, paymentFormName);
+            OrderTemp orderTemp = new OrderTemp(orderId, createdDate, orderStatus, addressDescip, phone, customerName, total, paymentFormName, payPalTransId);
             orderTemps.add(orderTemp);
         }
         return orderTemps;
@@ -122,20 +126,29 @@ public class OrderService {
         List<ProductTemp> productTemps = new ArrayList<>();
         for (OrderDetail orderDetail : orderDetails) {
             int productId = orderDetail.getProductId();
+            int categoryId = orderDetail.getCategoryId();
             String priceSale = orderDetail.getPriceSale();
             String amount = orderDetail.getAmount();
             String total = orderDetail.getTotal();
             Product product = proRep.findProductByProductId(orderDetail.getProductId());
             product.setProductImage(VtnShopUtil.getBaseUrl() + product.getProductImage());
-            ProductTemp productTemp = new ProductTemp(productId, amount, priceSale, total, product);
+            ProductTemp productTemp = new ProductTemp(productId, categoryId, amount, priceSale, total, product);
             productTemps.add(productTemp);
         }
         return productTemps;
     }
 
-    public boolean cancelOrder(int orderId) {
+    public boolean cancelOrder(OrderTemp orderTemp) {
+        System.out.println(orderTemp.toString());
         try {
-            Order order = ordProRep.findOrderByOrderId(orderId);
+            for (ProductTemp productTemp : orderTemp.getProducts()) {
+                int currentAmount = proRep.getCurrentAmount(productTemp.getProduct().getProductId());
+                int newAmount = currentAmount + Integer.parseInt(productTemp.getAmount());
+                Product product = proRep.findProductByProductId(productTemp.getProduct().getProductId());
+                product.setAmount(newAmount + "");
+                proRep.save(product);
+            }
+            Order order = ordProRep.findOrderByOrderId(orderTemp.getOrderId());
             order.setStatusId(6);
             ordProRep.save(order);
             return true;

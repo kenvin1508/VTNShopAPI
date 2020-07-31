@@ -27,6 +27,8 @@ public class Order {
     private String AddressId;
     @Column(name = "Note")
     private String note;
+    @Column(name = "PayPalTransId")
+    private String payPalTransId;
     //  @Column(name = "products", nullable = true)
 //    private ArrayList<Product> products;
 //
@@ -38,6 +40,14 @@ public class Order {
 //        this.products = products;
 //    }
 
+
+    public String getPayPalTransId() {
+        return payPalTransId;
+    }
+
+    public void setPayPalTransId(String payPalTransId) {
+        this.payPalTransId = payPalTransId;
+    }
 
     public int getPaymentFormId() {
         return paymentFormId;
@@ -123,6 +133,7 @@ public class Order {
                 ", phone='" + phone + '\'' +
                 ", AddressId='" + AddressId + '\'' +
                 ", note='" + note + '\'' +
+                ", payPalTransId='" + payPalTransId + '\'' +
                 '}';
     }
 }

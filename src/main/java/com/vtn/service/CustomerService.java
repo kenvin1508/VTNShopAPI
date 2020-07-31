@@ -108,4 +108,12 @@ public class CustomerService {
         //  }
     }
 
+    public void forgotPassword(String phone, String newPassword) {
+        phone = "0" + phone.substring(3);
+        System.out.println(phone);
+        Customer customer = cusRes.findByPhone(phone);
+        customer.setPassword(newPassword);
+        cusRes.save(customer);
+    }
+
 }

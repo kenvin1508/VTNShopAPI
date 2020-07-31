@@ -2,6 +2,7 @@ package com.vtn.model.product;
 
 public class ProductTemp {
     private int productId;
+    private int categoryId;
     private String amount;
     private String priceSale;
     private String total;
@@ -10,12 +11,21 @@ public class ProductTemp {
     public ProductTemp() {
     }
 
-    public ProductTemp(int productId, String amount, String priceSale, String total, Product product) {
+    public ProductTemp(int productId, int categoryId, String amount, String priceSale, String total, Product product) {
+        this.categoryId = categoryId;
         this.amount = amount;
         this.priceSale = priceSale;
         this.total = total;
         this.product = product;
         this.productId = productId;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Product getProduct() {
@@ -56,5 +66,17 @@ public class ProductTemp {
 
     public void setTotal(String total) {
         this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductTemp{" +
+                "productId=" + productId +
+                ", categoryId=" + categoryId +
+                ", amount='" + amount + '\'' +
+                ", priceSale='" + priceSale + '\'' +
+                ", total='" + total + '\'' +
+                ", product=" + product +
+                '}';
     }
 }

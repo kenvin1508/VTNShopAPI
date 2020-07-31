@@ -11,6 +11,8 @@ public class OrderDetail {
     private int id;
     @Column(name = "ProductId")
     private int productId;
+    @Column(name = "CategoryId")
+    private int categoryId;
     @Column(name = "OrderId")
     private int orderId;
     @Column(name = "PriceSale")
@@ -21,6 +23,14 @@ public class OrderDetail {
     private String total;
     @Column(name = "CreatedDate")
     private String createdDate;
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public int getId() {
         return id;

@@ -119,4 +119,21 @@ public class Product implements Serializable {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", categoryId=" + categoryId +
+                ", productName='" + productName + '\'' +
+                ", productPrice='" + productPrice + '\'' +
+                ", percentSale='" + percentSale + '\'' +
+                ", priceSale='" + priceSale + '\'' +
+                ", amount='" + amount + '\'' +
+                ", description='" + description + '\'' +
+                ", productImage='" + productImage + '\'' +
+                ", status=" + status +
+                ", productImages=" + productImages +
+                '}';
+    }
 }

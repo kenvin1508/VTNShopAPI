@@ -128,4 +128,9 @@ public class CustomerController {
         Customer customer1 = cusSer.loginFB(customer, idAccount, urlImage);
         return new ResponseEntity<>(customer1, HttpStatus.OK);
     }
+
+    @PutMapping("/forgot_password")
+    public void forgotPassword(@RequestParam String phone, @RequestParam String newPassword) {
+        cusSer.forgotPassword(phone, newPassword);
+    }
 }

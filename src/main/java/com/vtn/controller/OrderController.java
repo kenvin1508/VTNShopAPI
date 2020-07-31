@@ -20,6 +20,7 @@ public class OrderController {
 
     @PostMapping("/insert")
     public ResponseEntity<List<ProductTemp>> insertOrder(@RequestBody OrderTemp orderTemp) {
+        System.out.println(orderTemp.toString());
         List<ProductTemp> productTemps = ordSer.insertOrderDetail(orderTemp);
         if (productTemps.size() != 0) {
             return new ResponseEntity<>(productTemps, HttpStatus.NOT_FOUND);
@@ -38,9 +39,9 @@ public class OrderController {
         return ordSer.getListOrdersDetail(id);
     }
 
-    @GetMapping("/cancel")
-    public ResponseEntity<?> cancelOrder(@RequestParam int id) {
-        if (ordSer.cancelOrder(id)) {
+    @PostMapping("/cancel")
+    public ResponseEntity<?> cancelOrder(@RequestBody OrderTemp orderTemp) {
+        if (ordSer.cancelOrder(orderTemp)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
